@@ -9,6 +9,8 @@ func Initialize() {
 		NewFeedbackFunction: newfeedbackWebhook,
 		NewCallbackFunction: newCallbackWebhook,
 		NewStartupFunction:  newStartupMessage,
+		NewAlertFunction:    newAlertMessage,
+		NewCustomFunction:   newCustomMessage,
 	}
 	webhookstructs.AllWebhookData.Get("my_webhooks").AddWebhookDefinition(myWebhooks)
 }
