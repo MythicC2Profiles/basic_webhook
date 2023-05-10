@@ -52,6 +52,8 @@ github.com/MythicMeta/MythicContainer v1.0.0-rc9 h1:3B8haHwjfCME5/7srkBFmuO558/Z
 github.com/MythicMeta/MythicContainer v1.0.0-rc9/go.mod h1:rEBQYe+FYL9cSQi+M24bb0yJ+asHH7WPtSgoq5ftqDk=
 github.com/MythicMeta/MythicContainer v1.0.4 h1:SKTR+2YG7z0DWlNGZLPRVZYz3DGPcKUqcKyQM+w7Ghw=
 github.com/MythicMeta/MythicContainer v1.0.4/go.mod h1:EZqZAa+ZdZhhfLICL4RhnlBydMxZC4wi5vr95WRgdbY=
+github.com/MythicMeta/MythicContainer v1.0.5 h1:QjDt5JKqVoGyraPlRQXyprYEv43qbeEoJ5fwdh2dL80=
+github.com/MythicMeta/MythicContainer v1.0.5/go.mod h1:EZqZAa+ZdZhhfLICL4RhnlBydMxZC4wi5vr95WRgdbY=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=
 github.com/cespare/xxhash/v2 v2.1.1/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
