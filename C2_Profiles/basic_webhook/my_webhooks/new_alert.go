@@ -3,19 +3,36 @@ package my_webhooks
 import (
 	"fmt"
 	"github.com/MythicMeta/MythicContainer/logging"
+	"github.com/MythicMeta/MythicContainer/mythicrpc"
 	"github.com/MythicMeta/MythicContainer/webhookstructs"
+	"time"
 )
+
+var throttleTime = 10 * time.Second
+var newAlertLastSource = ""
+var newAlertLastTime = time.Now()
 
 func newAlertMessage(input webhookstructs.NewAlertWebhookMessage) {
 	newMessage := webhookstructs.GetNewDefaultWebhookMessage()
 	newMessage.Channel = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookChannel(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
 	var webhookURL = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookURL(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
+	if newAlertLastSource == input.Data.Source {
+		if time.Now().Sub(newAlertLastTime).Abs() <= throttleTime {
+			logging.LogInfo("Not sending webhook because <10s has passed since last message")
+			return
+		} else {
+			newAlertLastTime = time.Now()
+		}
+	} else {
+		newAlertLastSource = input.Data.Source
+		newAlertLastTime = time.Now()
+	}
 	if webhookURL == "" {
 		logging.LogError(nil, "No webhook url specified for operation or locally", "data", newMessage)
-		//go mythicrpc.SendMythicRPCOperationEventLogCreate(mythicrpc.MythicRPCOperationEventLogCreateMessage{
-		//	Message:      "No webhook url specified, can't send webhook message",
-		//	MessageLevel: mythicrpc.MESSAGE_LEVEL_WARNING,
-		//})
+		go mythicrpc.SendMythicRPCOperationEventLogCreate(mythicrpc.MythicRPCOperationEventLogCreateMessage{
+			Message:      "No webhook url specified, can't send alert webhook message",
+			MessageLevel: mythicrpc.MESSAGE_LEVEL_INFO,
+		})
 		return
 	}
 

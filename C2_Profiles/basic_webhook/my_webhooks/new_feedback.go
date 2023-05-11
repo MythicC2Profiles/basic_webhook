@@ -13,10 +13,10 @@ func newfeedbackWebhook(input webhookstructs.NewFeedbackWebookMessage) {
 	var webhookURL = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookURL(input, webhookstructs.WEBHOOK_TYPE_NEW_FEEDBACK)
 	if webhookURL == "" {
 		logging.LogError(nil, "No webhook url specified for operation or locally", "data", newMessage)
-		//go mythicrpc.SendMythicRPCOperationEventLogCreate(mythicrpc.MythicRPCOperationEventLogCreateMessage{
-		//	Message:      "No webhook url specified, can't send webhook message",
-		//	MessageLevel: mythicrpc.MESSAGE_LEVEL_WARNING,
-		//})
+		go mythicrpc.SendMythicRPCOperationEventLogCreate(mythicrpc.MythicRPCOperationEventLogCreateMessage{
+			Message:      "No webhook url specified, can't send feedback webhook message",
+			MessageLevel: mythicrpc.MESSAGE_LEVEL_INFO,
+		})
 		return
 	}
 	switch input.Data.FeedbackType {
