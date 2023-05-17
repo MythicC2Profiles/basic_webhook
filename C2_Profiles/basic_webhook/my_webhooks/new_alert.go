@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-var throttleTime = 10 * time.Second
+var throttleTime = 60 * time.Second
 var newAlertLastSource = ""
 var newAlertLastTime = time.Now()
 
