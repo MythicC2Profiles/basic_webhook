@@ -9,24 +9,19 @@ import (
 )
 
 var throttleTime = 60 * time.Second
-var newAlertLastSource = ""
 var newAlertLastTime = time.Now()
 
 func newAlertMessage(input webhookstructs.NewAlertWebhookMessage) {
 	newMessage := webhookstructs.GetNewDefaultWebhookMessage()
 	newMessage.Channel = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookChannel(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
 	var webhookURL = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookURL(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
-	if newAlertLastSource == input.Data.Source {
-		if time.Now().Sub(newAlertLastTime).Abs() <= throttleTime {
-			logging.LogInfo("Not sending webhook because <10s has passed since last message")
-			return
-		} else {
-			newAlertLastTime = time.Now()
-		}
+	if time.Now().Sub(newAlertLastTime).Abs() <= throttleTime {
+		logging.LogInfo("Not sending webhook because <10s has passed since last message")
+		return
 	} else {
-		newAlertLastSource = input.Data.Source
 		newAlertLastTime = time.Now()
 	}
+
 	if webhookURL == "" {
 		logging.LogError(nil, "No webhook url specified for operation or locally", "data", newMessage)
 		go mythicrpc.SendMythicRPCOperationEventLogCreate(mythicrpc.MythicRPCOperationEventLogCreateMessage{
