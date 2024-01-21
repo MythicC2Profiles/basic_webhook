@@ -1,1 +1,1 @@
-FROM ghcr.io/mythicc2profiles/basic_webhook:latest
+FROM ghcr.io/mythicc2profiles/basic_webhook:v0.0.1
