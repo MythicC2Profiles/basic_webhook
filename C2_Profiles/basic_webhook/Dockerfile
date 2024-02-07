@@ -1,4 +1,4 @@
-FROM ghcr.io/mythicc2profiles/basic_webhook:v0.0.2
+FROM ghcr.io/mythicc2profiles/basic_webhook:v0.0.3
 #FROM golang:1.21 as builder
 
 #WORKDIR /Mythic/
