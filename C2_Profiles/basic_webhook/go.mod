@@ -4,7 +4,7 @@ go 1.19
 
 //replace github.com/MythicMeta/MythicContainer => ../../../../MythicMeta/MythicContainer
 
-require github.com/MythicMeta/MythicContainer v1.3.4
+require github.com/MythicMeta/MythicContainer v1.3.5
 
 require (
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
