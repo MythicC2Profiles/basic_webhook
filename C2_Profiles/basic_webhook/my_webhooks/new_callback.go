@@ -22,7 +22,7 @@ func newCallbackWebhook(input webhookstructs.NewCallbackWebookMessage) {
 	newMessage.Attachments[0].Title = "New Callback!"
 	newMessage.Attachments[0].Color = "#b366ff"
 	if newMessage.Attachments[0].Blocks != nil {
-		(*newMessage.Attachments[0].Blocks)[0].Text.Text = fmt.Sprintf("<!here> You have a new callback!")
+		(*newMessage.Attachments[0].Blocks)[0].Text.Text = fmt.Sprintf("You have a new callback!") // <!here> <-- add this if you want to ping the whole channel
 	}
 	// construct the fields list
 	fieldsBlockStarter := []webhookstructs.SlackWebhookMessageAttachmentBlockText{
