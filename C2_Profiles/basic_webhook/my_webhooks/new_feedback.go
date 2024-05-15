@@ -62,14 +62,15 @@ func newfeedbackWebhook(input webhookstructs.NewFeedbackWebookMessage) {
 	if input.Data.TaskID != nil {
 
 		if TaskData, err := mythicrpc.SendMythicRPCTaskSearch(mythicrpc.MythicRPCTaskSearchMessage{
-			TaskID: *input.Data.TaskID,
+			TaskID:       *input.Data.TaskID,
+			SearchTaskID: input.Data.TaskID,
 		}); err != nil {
 			logging.LogError(err, "Failed to fetch task information")
 		} else {
 			fieldsBlockStarter = append(fieldsBlockStarter,
 				webhookstructs.SlackWebhookMessageAttachmentBlockText{
 					Type: "mrkdwn",
-					Text: fmt.Sprintf("*Callback / Task*\n%d / %d", TaskData.Tasks[0].CallbackID, *input.Data.TaskID),
+					Text: fmt.Sprintf("*Callback / Task*\n%d / %d", TaskData.Tasks[0].CallbackID, *input.Data.TaskDisplayID),
 				})
 			fieldsBlockStarter = append(fieldsBlockStarter,
 				webhookstructs.SlackWebhookMessageAttachmentBlockText{
