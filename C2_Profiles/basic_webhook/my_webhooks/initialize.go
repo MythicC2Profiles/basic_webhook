@@ -6,6 +6,8 @@ import (
 
 func Initialize() {
 	myWebhooks := webhookstructs.WebhookDefinition{
+		Name:                "MyBasicWebhooks",
+		Description:         "Basic webhook functionality for feedback, callbacks, alerts, and startup notifications",
 		NewFeedbackFunction: newfeedbackWebhook,
 		NewCallbackFunction: newCallbackWebhook,
 		NewStartupFunction:  newStartupMessage,
