@@ -1,6 +1,7 @@
 package my_webhooks
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/MythicMeta/MythicContainer/logging"
 	"github.com/MythicMeta/MythicContainer/mythicrpc"
@@ -52,11 +53,29 @@ func newCallbackWebhook(input webhookstructs.NewCallbackWebookMessage) {
 			Type: "mrkdwn",
 			Text: fmt.Sprintf("*Integrity Level*\n%s", integrityLevelString),
 		})
-	fieldsBlockStarter = append(fieldsBlockStarter,
-		webhookstructs.SlackWebhookMessageAttachmentBlockText{
-			Type: "mrkdwn",
-			Text: fmt.Sprintf("*IP*\n%s", input.Data.IPs),
-		})
+	ipArray := []string{}
+	err := json.Unmarshal([]byte(input.Data.IPs), &ipArray)
+	if err != nil {
+		logging.LogError(err, "failed to unmarshal ip array")
+		fieldsBlockStarter = append(fieldsBlockStarter,
+			webhookstructs.SlackWebhookMessageAttachmentBlockText{
+				Type: "mrkdwn",
+				Text: fmt.Sprintf("*IP*\n%s", input.Data.IPs),
+			})
+	} else if len(ipArray) > 0 {
+		fieldsBlockStarter = append(fieldsBlockStarter,
+			webhookstructs.SlackWebhookMessageAttachmentBlockText{
+				Type: "mrkdwn",
+				Text: fmt.Sprintf("*IP*\n%s", ipArray[0]),
+			})
+	} else {
+		fieldsBlockStarter = append(fieldsBlockStarter,
+			webhookstructs.SlackWebhookMessageAttachmentBlockText{
+				Type: "mrkdwn",
+				Text: fmt.Sprintf("*IP*\n%s", input.Data.IPs),
+			})
+	}
+
 	fieldsBlockStarter = append(fieldsBlockStarter,
 		webhookstructs.SlackWebhookMessageAttachmentBlockText{
 			Type: "mrkdwn",
