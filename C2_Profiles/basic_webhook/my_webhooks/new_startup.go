@@ -21,7 +21,7 @@ func newStartupMessage(input webhookstructs.NewStartupWebhookMessage) {
 	}
 
 	newMessage.Attachments[0].Title = "Mythic Webhook Started!"
-	newMessage.Attachments[0].Color = "#ff0000"
+	newMessage.Attachments[0].Color = "#85b089"
 	if newMessage.Attachments[0].Blocks != nil {
 		(*newMessage.Attachments[0].Blocks)[0].Text.Text = fmt.Sprintf("Mythic Started!") // add <!here> to do an @here in the channel
 	}

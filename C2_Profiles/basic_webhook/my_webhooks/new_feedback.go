@@ -24,7 +24,7 @@ func newfeedbackWebhook(input webhookstructs.NewFeedbackWebookMessage) {
 		newMessage.Attachments[0].Title = "Bug Report!"
 		newMessage.Attachments[0].Color = "#ff0000"
 		if newMessage.Attachments[0].Blocks != nil {
-			(*newMessage.Attachments[0].Blocks)[0].Text.Text = fmt.Sprintf("<!here> *%s* submitted a bug report! :bug:", input.OperatorUsername)
+			(*newMessage.Attachments[0].Blocks)[0].Text.Text = fmt.Sprintf("*%s* submitted a bug report! :bug:", input.OperatorUsername)
 		}
 
 	case "feature_request":
@@ -43,7 +43,7 @@ func newfeedbackWebhook(input webhookstructs.NewFeedbackWebookMessage) {
 		newMessage.Attachments[0].Title = "We got caught! :bomb:"
 		newMessage.Attachments[0].Color = "#ff0000"
 		if newMessage.Attachments[0].Blocks != nil {
-			(*newMessage.Attachments[0].Blocks)[0].Text.Text = fmt.Sprintf("<!here> *%s* noticed we were detected! :bomb:", input.OperatorUsername)
+			(*newMessage.Attachments[0].Blocks)[0].Text.Text = fmt.Sprintf("*%s* noticed we were detected! :bomb:", input.OperatorUsername)
 		}
 	default:
 		newMessage.Attachments[0].Title = "Unknown Type"

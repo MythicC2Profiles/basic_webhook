@@ -21,7 +21,7 @@ func newCustomMessage(input webhookstructs.NewCustomWebhookMessage) {
 	}
 
 	newMessage.Attachments[0].Title = fmt.Sprintf("%s Message!", input.OperatorUsername)
-	newMessage.Attachments[0].Color = "#ff0000"
+	newMessage.Attachments[0].Color = "#84b4dc"
 	// construct the fields list
 	blockPieces := []webhookstructs.SlackWebhookMessageAttachmentBlockText{}
 	for key, val := range input.Data {
