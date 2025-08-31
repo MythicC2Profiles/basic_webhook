@@ -2,6 +2,7 @@ package my_webhooks
 
 import (
 	"fmt"
+
 	"github.com/MythicMeta/MythicContainer/logging"
 	"github.com/MythicMeta/MythicContainer/mythicrpc"
 	"github.com/MythicMeta/MythicContainer/webhookstructs"
@@ -48,5 +49,5 @@ func newStartupMessage(input webhookstructs.NewStartupWebhookMessage) {
 
 	*/
 
-	webhookstructs.SubmitWebRequest("POST", webhookURL, newMessage)
+	sendMessage(webhookURL, newMessage)
 }

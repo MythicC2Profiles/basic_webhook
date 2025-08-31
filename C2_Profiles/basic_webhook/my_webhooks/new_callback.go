@@ -3,6 +3,7 @@ package my_webhooks
 import (
 	"encoding/json"
 	"fmt"
+
 	"github.com/MythicMeta/MythicContainer/logging"
 	"github.com/MythicMeta/MythicContainer/mythicrpc"
 	"github.com/MythicMeta/MythicContainer/webhookstructs"
@@ -107,5 +108,5 @@ func newCallbackWebhook(input webhookstructs.NewCallbackWebookMessage) {
 
 	*/
 
-	webhookstructs.SubmitWebRequest("POST", webhookURL, newMessage)
+	sendMessage(webhookURL, newMessage)
 }

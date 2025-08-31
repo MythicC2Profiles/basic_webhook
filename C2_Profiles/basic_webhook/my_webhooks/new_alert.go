@@ -2,10 +2,11 @@ package my_webhooks
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/MythicMeta/MythicContainer/logging"
 	"github.com/MythicMeta/MythicContainer/mythicrpc"
 	"github.com/MythicMeta/MythicContainer/webhookstructs"
-	"time"
 )
 
 var throttleTime = 60 * time.Second
@@ -59,5 +60,5 @@ func newAlertMessage(input webhookstructs.NewAlertWebhookMessage) {
 
 	*/
 
-	webhookstructs.SubmitWebRequest("POST", webhookURL, newMessage)
+	sendMessage(webhookURL, newMessage)
 }
