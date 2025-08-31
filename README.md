@@ -1,6 +1,6 @@
 # basic_webhook
 
-This is a basic webhook container for Mythic v3.0.0. This container connects up to RabbitMQ queues for webhooks and posts those messages and additional data to Slack channels.
+This is a basic webhook container for Mythic v3.0.0. This container connects up to RabbitMQ queues for webhooks and posts those messages and additional data to Slack and Discord channels.
 
 ## How to install an agent in this format within Mythic
 
