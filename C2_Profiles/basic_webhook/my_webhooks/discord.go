@@ -29,8 +29,6 @@ type DiscordPayload struct {
 }
 
 func sendDiscordMessage(webhookURL string, msg webhookstructs.SlackWebhookMessage) error {
-	// Always use the hardcoded URL for now
-	webhookURL = "https://discord.com/api/webhooks/1411049114375819304/a6_ciZVehhn1V5hvQNmazveQyQC70sR4UAa4aemPdC2a54WGFiwgPvVcREByCgt24N2i"
 
 	var embeds []DiscordEmbed
 
