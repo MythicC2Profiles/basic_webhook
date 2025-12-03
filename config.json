@@ -5,6 +5,6 @@
   "exclude_documentation_c2": false,
   "exclude_agent_icons": false,
   "remote_images": {
-    "basic_webhook": "ghcr.io/mythicc2profiles/basic_webhook:v0.0.11"
+    "basic_webhook": "ghcr.io/mythicc2profiles/basic_webhook:v0.0.12"
   }
 }
