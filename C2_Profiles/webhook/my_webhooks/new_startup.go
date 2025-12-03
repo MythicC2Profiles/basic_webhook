@@ -2,46 +2,36 @@ package my_webhooks
 
 import (
 	"fmt"
+
 	"github.com/MythicMeta/MythicContainer/logging"
 	"github.com/MythicMeta/MythicContainer/mythicrpc"
 	"github.com/MythicMeta/MythicContainer/webhookstructs"
-	"time"
 )
 
-var throttleTime = 60 * time.Second
-var newAlertLastTime = time.Now()
-
-func newAlertMessage(input webhookstructs.NewAlertWebhookMessage) {
+func newStartupMessage(input webhookstructs.NewStartupWebhookMessage) {
 	newMessage := webhookstructs.GetNewDefaultWebhookMessage()
-	newMessage.Channel = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookChannel(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
-	var webhookURL = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookURL(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
-	if time.Now().Sub(newAlertLastTime).Abs() <= throttleTime {
-		logging.LogInfo("Not sending webhook because <10s has passed since last message")
-		return
-	} else {
-		newAlertLastTime = time.Now()
-	}
-
+	newMessage.Channel = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookChannel(input, webhookstructs.WEBHOOK_TYPE_NEW_STARTUP)
+	var webhookURL = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookURL(input, webhookstructs.WEBHOOK_TYPE_NEW_STARTUP)
 	if webhookURL == "" {
 		logging.LogError(nil, "No webhook url specified for operation or locally", "data", newMessage)
 		go mythicrpc.SendMythicRPCOperationEventLogCreate(mythicrpc.MythicRPCOperationEventLogCreateMessage{
-			Message:      "No webhook url specified, can't send alert webhook message",
+			Message:      "No webhook url specified, can't send webhook message",
 			MessageLevel: mythicrpc.MESSAGE_LEVEL_INFO,
 		})
 		return
 	}
 
-	newMessage.Attachments[0].Title = "New Event Alert!"
-	newMessage.Attachments[0].Color = "#ff0000"
+	newMessage.Attachments[0].Title = "Mythic Webhook Started!"
+	newMessage.Attachments[0].Color = "#85b089"
 	if newMessage.Attachments[0].Blocks != nil {
-		(*newMessage.Attachments[0].Blocks)[0].Text.Text = fmt.Sprintf("Source: %s", input.Data.Source)
+		(*newMessage.Attachments[0].Blocks)[0].Text.Text = fmt.Sprintf("Mythic Started!") // add <!here> to do an @here in the channel
 	}
 
 	// construct the fields list
 	fieldsBlockStarter := []webhookstructs.SlackWebhookMessageAttachmentBlockText{
 		{
 			Type: "mrkdwn",
-			Text: fmt.Sprintf("%s", input.Data.Message),
+			Text: fmt.Sprintf("%s", input.Data.StartupMessage),
 		},
 	}
 	fieldBlock := webhookstructs.SlackWebhookMessageAttachmentBlock{
@@ -59,5 +49,5 @@ func newAlertMessage(input webhookstructs.NewAlertWebhookMessage) {
 
 	*/
 
-	webhookstructs.SubmitWebRequest("POST", webhookURL, newMessage)
+	sendMessage(webhookURL, newMessage)
 }
