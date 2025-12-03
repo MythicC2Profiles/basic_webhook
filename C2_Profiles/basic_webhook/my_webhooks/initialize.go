@@ -2,15 +2,16 @@ package my_webhooks
 
 import (
 	"fmt"
+
 	"github.com/MythicMeta/MythicContainer/webhookstructs"
 )
 
-const version = "0.0.2"
+const version = "0.0.3"
 
 func Initialize() {
 	myWebhooks := webhookstructs.WebhookDefinition{
-		Name:                "MyBasicWebhooks",
-		Description:         fmt.Sprintf("Basic webhook functionality for feedback, callbacks, alerts, and startup notifications.\nVersion: %s", version),
+		Name:                "my_webhooks",
+		Description:         fmt.Sprintf("Basic basic_webhook functionality for feedback, callbacks, alerts, and startup notifications.\nVersion: %s", version),
 		NewFeedbackFunction: newfeedbackWebhook,
 		NewCallbackFunction: newCallbackWebhook,
 		NewStartupFunction:  newStartupMessage,

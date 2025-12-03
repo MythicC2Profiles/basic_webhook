@@ -9,7 +9,6 @@ on:
   #  types: [published]
   push:
     branches:
-      - 'Mythic3.3'
       - 'main'
     tags:
       - "v*.*.*"
@@ -68,7 +67,7 @@ jobs:
         uses: docker/build-push-action@v5 # ref: https://github.com/marketplace/actions/build-and-push-docker-images
         with:
           context: C2_Profiles/basic_webhook
-          file: C2_Profiles/basic_webhook/.docker/Dockerfile
+          file: C2_Profiles/basic_webhook/Dockerfile
           tags: |
             ${{ env.REGISTRY }}/${{ env.AGENT_IMAGE_NAME }}:${{ env.VERSION }}
             ${{ env.REGISTRY }}/${{ env.AGENT_IMAGE_NAME }}:latest
@@ -100,10 +99,6 @@ jobs:
 
       # The Dockerfile which Mythic uses to pull in the base container image needs to be
       # updated to reference the newly built container image
-      - name: Fix the server Dockerfile reference to reference the new release tag
-        working-directory: C2_Profiles/basic_webhook
-        run: |
-          sed -i "s|^FROM ghcr\.io.*$|FROM ${REGISTRY}/${AGENT_IMAGE_NAME}:${VERSION}|" Dockerfile
 
       - name: Update package.json version
         uses: jossef/action-set-json-field@v2.1
