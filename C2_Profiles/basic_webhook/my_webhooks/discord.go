@@ -80,7 +80,7 @@ func sendDiscordMessage(webhookURL string, msg webhookstructs.SlackWebhookMessag
 	defer resp.Body.Close()
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return fmt.Errorf("discord webhook returned status %s", resp.Status)
+		return fmt.Errorf("discord basic_webhook returned status %s", resp.Status)
 	}
 
 	return nil
