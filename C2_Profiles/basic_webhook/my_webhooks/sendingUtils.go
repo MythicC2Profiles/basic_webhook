@@ -17,6 +17,11 @@ func sendMessage(webhookURL string, newMessage webhookstructs.SlackWebhookMessag
 	if strings.Contains(webhookURL, "discord.com") {
 		return sendDiscordMessage(webhookURL, newMessage)
 	}
+    
+	// Detect Google Chat basic_webhook URL
+    if strings.Contains(webhookURL, "chat.googleapis.com") {
+		return sendGoogleChatMessage(webhookURL, newMessage)
+	}
 
 	// Detect Slack basic_webhook URL
 	if strings.Contains(webhookURL, "slack.com") {
