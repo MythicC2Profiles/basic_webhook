@@ -1,14 +1,19 @@
+package my_webhooks
+
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
+
 	"github.com/MythicMeta/MythicContainer/webhookstructs"
 )
+
 type GoogleChatMessage struct {
 	Text string `json:"text,omitempty"`
 }
+
 func sendGoogleChatMessage(webhookURL string, msg webhookstructs.SlackWebhookMessage) error {
 	var builder strings.Builder
 	for _, att := range msg.Attachments {

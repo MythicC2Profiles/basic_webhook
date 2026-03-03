@@ -6,7 +6,7 @@ import (
 	"github.com/MythicMeta/MythicContainer/webhookstructs"
 )
 
-const version = "0.0.3"
+const version = "0.0.4"
 
 func Initialize() {
 	myWebhooks := webhookstructs.WebhookDefinition{
