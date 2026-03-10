@@ -16,6 +16,14 @@ func newAlertMessage(input webhookstructs.NewAlertWebhookMessage) {
 	newMessage := webhookstructs.GetNewDefaultWebhookMessage()
 	newMessage.Channel = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookChannel(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
 	var webhookURL = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookURL(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
+	// debug incoming webhookdata
+	fmt.Printf("DEBUG: Received Webhook Data: %+v\n", input)
+
+    if input.Data.Message == "" {
+        logging.LogInfo("Skipping webhook: No message content found in alert.")
+        return
+    }
+
 	if time.Now().Sub(newAlertLastTime).Abs() <= throttleTime {
 		logging.LogInfo("Not sending basic_webhook because <10s has passed since last message")
 		return
