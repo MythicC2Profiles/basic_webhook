@@ -1,6 +1,7 @@
 package my_webhooks
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -12,7 +13,7 @@ import (
 var throttleTime = 60 * time.Second
 var newAlertLastTime = time.Now()
 
-func newAlertMessage(input webhookstructs.NewAlertWebhookMessage) {
+func newAlertMessage(ctx context.Context, input webhookstructs.NewAlertWebhookMessage) {
 	newMessage := webhookstructs.GetNewDefaultWebhookMessage()
 	newMessage.Channel = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookChannel(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
 	var webhookURL = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookURL(input, webhookstructs.WEBHOOK_TYPE_NEW_ALERT)
@@ -25,7 +26,7 @@ func newAlertMessage(input webhookstructs.NewAlertWebhookMessage) {
 
 	if webhookURL == "" {
 		logging.LogError(nil, "No basic_webhook url specified for operation or locally", "data", newMessage)
-		go mythicrpc.SendMythicRPCOperationEventLogCreate(mythicrpc.MythicRPCOperationEventLogCreateMessage{
+		go mythicrpc.SendMythicRPCOperationEventLogCreate(ctx, mythicrpc.MythicRPCOperationEventLogCreateMessage{
 			Message:      "No basic_webhook url specified, can't send alert basic_webhook message",
 			MessageLevel: mythicrpc.MESSAGE_LEVEL_INFO,
 		})

@@ -1,6 +1,7 @@
 package my_webhooks
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/MythicMeta/MythicContainer/logging"
@@ -8,13 +9,13 @@ import (
 	"github.com/MythicMeta/MythicContainer/webhookstructs"
 )
 
-func newfeedbackWebhook(input webhookstructs.NewFeedbackWebookMessage) {
+func newfeedbackWebhook(ctx context.Context, input webhookstructs.NewFeedbackWebookMessage) {
 	newMessage := webhookstructs.GetNewDefaultWebhookMessage()
 	newMessage.Channel = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookChannel(input, webhookstructs.WEBHOOK_TYPE_NEW_FEEDBACK)
 	var webhookURL = webhookstructs.AllWebhookData.Get("my_webhooks").GetWebhookURL(input, webhookstructs.WEBHOOK_TYPE_NEW_FEEDBACK)
 	if webhookURL == "" {
 		logging.LogError(nil, "No basic_webhook url specified for operation or locally", "data", newMessage)
-		go mythicrpc.SendMythicRPCOperationEventLogCreate(mythicrpc.MythicRPCOperationEventLogCreateMessage{
+		go mythicrpc.SendMythicRPCOperationEventLogCreate(ctx, mythicrpc.MythicRPCOperationEventLogCreateMessage{
 			Message:      "No basic_webhook url specified, can't send feedback basic_webhook message",
 			MessageLevel: mythicrpc.MESSAGE_LEVEL_INFO,
 		})
@@ -62,7 +63,7 @@ func newfeedbackWebhook(input webhookstructs.NewFeedbackWebookMessage) {
 	}
 	if input.Data.TaskID != nil {
 
-		if TaskData, err := mythicrpc.SendMythicRPCTaskSearch(mythicrpc.MythicRPCTaskSearchMessage{
+		if TaskData, err := mythicrpc.SendMythicRPCTaskSearch(ctx, mythicrpc.MythicRPCTaskSearchMessage{
 			TaskID:       *input.Data.TaskID,
 			SearchTaskID: input.Data.TaskID,
 		}); err != nil {
